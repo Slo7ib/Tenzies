@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --repo https://github.com/Slo7ib/Tenzies.git --no-history"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.65.0",
