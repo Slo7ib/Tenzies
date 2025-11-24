@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
+import { useLanguage } from "../contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Main() {
   const [dice, setDice] = useState(() => generateAllNewDice());
   const newGameBtn = React.useRef(null);
+  const { t, language } = useLanguage();
 
   let gameWon =
     dice.every((die) => die.isHeld) &&
@@ -46,12 +49,15 @@ export default function Main() {
   }, [gameWon]);
 
   return (
-    <main className="bg-gray-800 flex flex-col h-screen w-screen">
-      <div className="bg-zinc-300 m-7 h-4/5 w-1/2 mx-auto rounded-xl flex flex-col items-center justify-center">
-        <h1 className="font-bold text-5xl mb-7">Tenzies</h1>
+    <main 
+      className="bg-gray-800 flex flex-col h-screen w-screen"
+      dir={language === "ar" ? "rtl" : "ltr"}
+    >
+      <LanguageSwitcher />
+      <div className="bg-zinc-300 m-7 h-4/5 w-1/2 mx-auto rounded-xl flex flex-col items-center justify-center relative">
+        <h1 className="font-bold text-5xl mb-7">{t("title")}</h1>
         <p className="text-center">
-          Roll until all dice are the same. Click each die to <br /> freeze it
-          at its current value between rolls.
+          {t("instructionsLine1")} <br /> {t("instructionsLine2")}
         </p>
         <div className="container grid w-4/5 h-2/4 grid-cols-5 grid-rows-2 justify-center justify-items-center content-center items-center">
           {dice.map((dieObj) => (
@@ -69,7 +75,7 @@ export default function Main() {
           onClick={rollDice}
           ref={newGameBtn}
         >
-          {gameWon ? "New Game" : "Roll"}
+          {gameWon ? t("newGame") : t("roll")}
         </button>
         {gameWon && <ReactConfetti />}
       </div>
